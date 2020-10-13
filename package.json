@@ -1,0 +1,25 @@
+{
+  "name": "synonymbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/razrbakk/SynonymBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/razrbakk/SynonymBot/issues"
+  },
+  "homepage": "https://github.com/razrbakk/SynonymBot#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.2.0",
+    "puppeteer": "^5.3.1"
+  }
+}
