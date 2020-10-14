@@ -1,27 +1,43 @@
-require('dotenv').config()
-// const Discord = require('discord.js');
-// const ytdl = require('ytdl-core');
-// const client = new Discord.Client();
-
-// client.once('ready', () => {
-//     console.log('Ready!');
-// });
-
-// client.on('message', message => {
-//     let words = message.content.split(" ");
-//     const voiceChannel = message.member.voice.channel;
-
-//     if (!voiceChannel) {
-//         return message.reply('Bot joined voice chat');
-//     }
-// });
-
-// client.login(process.env.TOKEN);
-
+require('dotenv').config();
+const $ = require('cheerio');
 const axios = require('axios');
-const url = "https://www.synonymer.se/sv-syn/hej";
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
-axios.get(url)
-    .then((response) => {
-        console.log(response.data);
+client.once('ready', () => {
+    console.log('Ready!');
+});
+
+client.on('message', message => {
+    if (message.author.bot) return;
+
+    let words = message.content.split(" ");
+
+    getSynonyms(words).then((response) => {
+        message.channel.send(response);
     })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
+client.login(process.env.TOKEN);
+
+const getSynonyms = async function (words) {
+    let synonymed = "";
+
+    for (let i = 0; i < words.length; i++) {
+        const url = process.env.BASE_URL + words[i];
+
+        await axios.get(url)
+            .then((response) => {
+                synonymed += $('div > ul > li > ol > li > a', response.data)[0].children[0].data;
+                synonymed += " ";
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    return synonymed;
+}
