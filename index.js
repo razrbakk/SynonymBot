@@ -3,6 +3,7 @@ const $ = require('cheerio');
 const axios = require('axios');
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const encodeUrl = require('encodeurl')
 
 client.once('ready', () => {
     console.log('Ready!');
@@ -27,7 +28,7 @@ const getSynonyms = async function (words) {
     let synonymed = "";
 
     for (let i = 0; i < words.length; i++) {
-        const url = process.env.BASE_URL + words[i];
+        const url = encodeUrl(process.env.BASE_URL + words[i]);
 
         await axios.get(url)
             .then((response) => {
